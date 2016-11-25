@@ -1,6 +1,6 @@
 package ca.dait.gps.rest.controllers;
 
-import ca.dait.gps.GpsConstants;
+import ca.dait.gps.ServerConstants;
 import ca.dait.gps.data.CoordinateService;
 import ca.dait.gps.entities.Coordinate;
 import ca.dait.gps.entities.Directory;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(GpsConstants.BASE_URL + "/coordinates")
+@RequestMapping(ServerConstants.BASE_URL + "/coordinates")
 public class CoordinateControllers {
 
     @Autowired

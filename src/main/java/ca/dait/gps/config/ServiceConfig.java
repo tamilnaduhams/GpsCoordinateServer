@@ -23,7 +23,7 @@ import org.springframework.core.env.Environment;
 @Order(1)
 @PropertySource("classpath:properties/jdbc.properties")
 @PropertySource("classpath:properties/site.properties")
-public class ApplicationConfig {
+public class ServiceConfig {
 
     @Autowired
     private SqlSessionFactory factory;

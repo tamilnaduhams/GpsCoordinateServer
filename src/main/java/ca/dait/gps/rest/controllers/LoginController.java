@@ -1,12 +1,11 @@
 package ca.dait.gps.rest.controllers;
 
-import ca.dait.gps.GpsConstants;
+import ca.dait.gps.ServerConstants;
 import ca.dait.gps.auth.StatelessSessionService;
 import ca.dait.gps.auth.UserCredentials;
 import ca.dait.gps.data.UserCredentialsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ import java.io.IOException;
  * Created by darinamos on 2016-11-24.
  */
 @RestController
-@RequestMapping(GpsConstants.BASE_URL + "/login")
+@RequestMapping(ServerConstants.BASE_URL + "/login")
 public class LoginController {
 
     @Autowired
