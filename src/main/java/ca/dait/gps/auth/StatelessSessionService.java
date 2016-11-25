@@ -27,8 +27,6 @@ import java.util.Map;
 @Service
 public final class StatelessSessionService{
 
-    private static final String DELETE_COOKIE_VAL = "DEL"; //garbage data for deleting a cookie.
-
     private final String cookieName;
     private final String path;
     private final boolean isSecure;
@@ -147,8 +145,9 @@ public final class StatelessSessionService{
         if(cookies != null){
             for(Cookie cookie : request.getCookies()){
                 //Make sure the cookie doesn't match the DEL value.
-                if(name.equals(cookie.getName()) && !DELETE_COOKIE_VAL.equals(cookie.getValue()));
-                return cookie;
+                if(name.equals(cookie.getName())) {
+                    return cookie;
+                }
             }
         }
         return null;
