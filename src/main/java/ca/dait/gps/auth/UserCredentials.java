@@ -1,5 +1,7 @@
 package ca.dait.gps.auth;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,20 +22,14 @@ public class UserCredentials implements Authentication {
     private transient boolean authenticated = false;
     private transient boolean refreshRequired = false;
 
-    public UserCredentials(String username, String password){
-        assert username != null;
-        assert password != null;
-
+    @JsonCreator
+    public UserCredentials(@JsonProperty("username") String username, @JsonProperty("password") String password){
         this.username = username;
         this.password = password;
         this.authorities = Collections.EMPTY_SET;
     }
 
     public UserCredentials(String username, String password, String authorities){
-        assert username != null;
-        assert password != null;
-        assert authorities != null;
-
         this.username = username;
         this.password = password;
         this.authorities = new HashSet<>();
@@ -43,9 +39,6 @@ public class UserCredentials implements Authentication {
     }
 
     public UserCredentials(String username, List<String> authorities){
-        assert username != null;
-        assert authorities != null;
-
         this.username = username;
         this.password = null;
         this.authorities = new HashSet<>();
@@ -55,7 +48,7 @@ public class UserCredentials implements Authentication {
     }
 
     @Override
-    public Object getPrincipal() {
+    public String getPrincipal() {
         return username;
     }
 
@@ -65,12 +58,12 @@ public class UserCredentials implements Authentication {
     }
 
     @Override
-    public Object getCredentials() {
+    public String getCredentials() {
         return password;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 

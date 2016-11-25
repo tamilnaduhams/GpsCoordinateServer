@@ -5,6 +5,7 @@ import ca.dait.gps.data.CoordinateService;
 import ca.dait.gps.entities.Coordinate;
 import ca.dait.gps.entities.Directory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +24,13 @@ public class CoordinateControllers {
     @Autowired
     private CoordinateService coordinateService;
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Result getRootDirectory(){
         return new Result(this.coordinateService.getRootDirectories(),
                           this.coordinateService.getRootCoordinates());
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Result getDirectory(@PathVariable("id") Long id){
         return new Result(this.coordinateService.getSubDirectories(id),
                           this.coordinateService.getDirectoryCoordinates(id));
