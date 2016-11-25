@@ -45,7 +45,7 @@ public final class StatelessSessionService{
     @Autowired
     public StatelessSessionService(ConfigService configService,
                                    @Value("${site.auth.cookie.name}") String cookieName,
-                                   @Value("${site.auth.cookie.name}") String path,
+                                   @Value("${site.auth.cookie.path}") String path,
                                    @Value("${site.auth.cookie.secure}") boolean isSecure,
                                    @Value("${site.auth.cookie.httpOnly}") boolean isHttpOnly,
                                    @Value("${site.auth.cookie.timeout}") long cookieTimeout,
@@ -79,7 +79,7 @@ public final class StatelessSessionService{
         cookie.setSecure(this.isSecure);
         cookie.setHttpOnly(this.isHttpOnly);
         cookie.setMaxAge(-1);
-        cookie.setPath("/");
+        cookie.setPath(this.path);
         response.addCookie(cookie);
     }
 
