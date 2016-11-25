@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.dait.gps.data.CoordinateService">
+
+    <sql id="_selectDirectory">
+        select
+            id,
+            name,
+            description
+        from
+            directory
+    </sql>
+
+    <sql id="_selectCoordinate">
+        select
+            name,
+            description,
+            lat,
+            lon
+        from
+            coordinate
+    </sql>
+
+    <select id="getRootDirectories" resultType="ca.dait.gps.entities.Directory">
+        <include refid="_selectDirectory"/>
+        where
+            parent_id is null;
+    </select>
+
+    <select id="getSubDirectories" resultType="ca.dait.gps.entities.Directory">
+        <include refid="_selectDirectory"/>
+        where
+            parent_id = #{id}
+    </select>
+
+    <select id="getRootCoordinates" resultType="ca.dait.gps.entities.Coordinate">
+        <include refid="_selectCoordinate"/>
+        where
+            directory is null;
+    </select>
+
+    <select id="getDirectoryCoordinates" resultType="ca.dait.gps.entities.Coordinate">
+        <include refid="_selectCoordinate"/>
+        where
+            directory = #{id}
+    </select>
+
+
+</mapper>
