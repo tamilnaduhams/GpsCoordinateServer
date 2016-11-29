@@ -1,27 +1,25 @@
 
 CREATE TABLE directory(
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    parent_id BIGINT,
+    parent_id BIGINT NOT NULL DEFAULT -1,
     name VARCHAR(100) NOT NULL,
-    description VARCHAR(100),
-    FOREIGN KEY (parent_id) REFERENCES dir(id) ON DELETE CASCADE
-)
+    INDEX (parent_id),
+    UNIQUE INDEX (parent_id, name),
+    FOREIGN KEY (parent_id) REFERENCES directory(id) ON DELETE CASCADE
+);
 
+insert into directory (id, parent_id, name) values (-1, -1, 'root');
 
 CREATE TABLE coordinate(
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    description VARCHAR(100),
-    directory BIGINT,
+    directory_id BIGINT NOT NULL DEFAULT -1,
     lat FLOAT(10,6) NOT NULL,
     lon FLOAT(10,6) NOT NULL,
-    INDEX (name),
-    FOREIGN KEY (directory) REFERENCES directory(id) ON DELETE CASCADE
+    INDEX (directory_id),
+    UNIQUE INDEX (name, directory_id),
+    FOREIGN KEY (directory_id) REFERENCES directory(id) ON DELETE CASCADE
 );
-
---insert into directory(name, description) values ('Test1', 'TestDesc2');
---insert into coordinate(name, description, directory, lon, lat) values ('Test1', 'TestDesc1', null, 111.111, 222.222);
---insert into coordinate(name, description, directory, lon, lat) values ('Test2', 'TestDesc2', null, 333.333, 444.444);
 
 CREATE TABLE user(
     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,

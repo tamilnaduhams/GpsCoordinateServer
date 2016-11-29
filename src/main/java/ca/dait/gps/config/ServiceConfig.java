@@ -4,6 +4,10 @@ import ca.dait.gps.data.ConfigService;
 import ca.dait.gps.data.CoordinateService;
 import ca.dait.gps.data.UserCredentialsService;
 import ca.dait.gps.entities.Coordinate;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -43,6 +47,15 @@ public class ServiceConfig {
         );
         factoryBean.setTypeAliases(new Class<?>[]{Coordinate.class});
         return factoryBean.getObject();
+    }
+
+    @Bean
+    public ObjectMapper getObjectMapper() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
+        mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return mapper;
     }
 
     @Bean

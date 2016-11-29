@@ -5,4 +5,5 @@ package ca.dait.gps;
  */
 public class ServerConstants {
     public static final String BASE_URL = "/api";
+    public static final long ROOT_DIRECTORY = -1;
 }

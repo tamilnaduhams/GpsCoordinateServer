@@ -2,48 +2,72 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.dait.gps.data.CoordinateService">
 
-    <sql id="_selectDirectory">
+    <sql id="rootDirectory">-1</sql>
+
+    <sql id="selectDirectory">
         select
             id,
-            name,
-            description
+            parent_id,
+            name
         from
             directory
     </sql>
 
-    <sql id="_selectCoordinate">
+    <select id="getDirectory" resultType="ca.dait.gps.entities.Directory">
+        <include refid="selectDirectory"/>
+        where
+            id = #{directoryId}
+    </select>
+
+    <select id="getRootDirectories" resultType="ca.dait.gps.entities.Directory">
+        <include refid="selectDirectory"/>
+        where
+            parent_id = <include refid="rootDirectory"/> and
+            id != <include refid="rootDirectory"/>
+    </select>
+
+    <select id="getDirectories" resultType="ca.dait.gps.entities.Directory">
+        <include refid="selectDirectory"/>
+        where
+            parent_id = #{parentDirectoryId}
+    </select>
+
+    <select id="getCoordinates" resultType="ca.dait.gps.entities.Coordinate">
         select
+            id,
+            directory_id,
             name,
-            description,
             lat,
             lon
         from
             coordinate
-    </sql>
-
-    <select id="getRootDirectories" resultType="ca.dait.gps.entities.Directory">
-        <include refid="_selectDirectory"/>
         where
-            parent_id is null;
+            directory_id = #{directoryId}
     </select>
 
-    <select id="getSubDirectories" resultType="ca.dait.gps.entities.Directory">
-        <include refid="_selectDirectory"/>
-        where
-            parent_id = #{id}
-    </select>
+    <insert id="createDirectory">
+        insert into directory(
+            parent_id,
+            name)
+        values(
+            #{parentId},
+            #{name}
+        )
+    </insert>
 
-    <select id="getRootCoordinates" resultType="ca.dait.gps.entities.Coordinate">
-        <include refid="_selectCoordinate"/>
-        where
-            directory is null;
-    </select>
-
-    <select id="getDirectoryCoordinates" resultType="ca.dait.gps.entities.Coordinate">
-        <include refid="_selectCoordinate"/>
-        where
-            directory = #{id}
-    </select>
+    <insert id="createCoordinate">
+        insert into coordinate(
+            directory_id,
+            name,
+            lat,
+            lon)
+        values(
+            #{directoryId},
+            #{name},
+            #{lat},
+            #{lon}
+        )
+    </insert>
 
 
 </mapper>
